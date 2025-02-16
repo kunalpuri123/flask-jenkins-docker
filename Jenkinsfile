@@ -37,7 +37,7 @@ pipeline {
                         ${DOCKER_PATH} pull $IMAGE_NAME &&
                         ${DOCKER_PATH} stop flask_app || true &&
                         ${DOCKER_PATH} rm flask_app || true &&
-                        ${DOCKER_PATH} run -d --name flask_app -p 5000:5000 $IMAGE_NAME
+                        ${DOCKER_PATH} run -d --name flask_app -p 5001:5001 $IMAGE_NAME
                     
                     """
                 
