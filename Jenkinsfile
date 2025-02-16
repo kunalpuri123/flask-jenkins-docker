@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        DOCKER_PATH='/usr/local/bin/docker' 
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
         IMAGE_NAME = "kunalpuri123/flask-app"
     }
@@ -15,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh '${DOCKER_PATH} build -t $IMAGE_NAME .'
             }
         }
 
@@ -23,7 +24,7 @@ pipeline {
             steps {
                 script {
                     sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
-                    sh 'docker push $IMAGE_NAME'
+                    sh '${DOCKER_PATH} push $IMAGE_NAME'
                 }
             }
         }
@@ -33,10 +34,10 @@ pipeline {
                 
                     sh """
                    
-                        docker pull $IMAGE_NAME &&
-                        docker stop flask_app || true &&
-                        docker rm flask_app || true &&
-                        docker run -d --name flask_app -p 5000:5000 $IMAGE_NAME
+                        ${DOCKER_PATH} pull $IMAGE_NAME &&
+                        ${DOCKER_PATH} stop flask_app || true &&
+                        ${DOCKER_PATH} rm flask_app || true &&
+                        ${DOCKER_PATH} run -d --name flask_app -p 5000:5000 $IMAGE_NAME
                     
                     """
                 
