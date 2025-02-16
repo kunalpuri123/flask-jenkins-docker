@@ -23,7 +23,7 @@ pipeline {
         stage('Push Image to Docker Hub') {
             steps {
                 script {
-                    sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
+                    sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | ${DOCKER_PATH} login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
                     sh '${DOCKER_PATH} push $IMAGE_NAME'
                 }
             }
